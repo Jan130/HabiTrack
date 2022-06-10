@@ -3,25 +3,27 @@ package de.jansp.habitrack;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.HabitViewHolder> {
     public static class HabitViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView text1;
-        TextView text2;
+        TextView name;
+        CheckBox done;
 
         public HabitViewHolder(View itemView){
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
-            text1 = itemView.findViewById(R.id.text1);
-            text2 = itemView.findViewById(R.id.text2);
+            cv = itemView.findViewById(R.id.cv);
+            name = itemView.findViewById(R.id.name);
+            done = itemView.findViewById(R.id.done);
         }
     }
 
@@ -44,8 +46,16 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
 
     @Override
     public void onBindViewHolder(HabitViewAdapter.HabitViewHolder holder, int position) {
-        holder.text1.setText(habits.get(position).text1);
-        holder.text2.setText(habits.get(position).text2);
+        holder.name.setText(habits.get(position).name);
+        holder.done.setChecked(habits.get(position).getDone(Calendar.getInstance().getTime()));
+
+        holder.done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox) view).isChecked();
+                habits.get(position).setDone(Calendar.getInstance().getTime(), checked);
+            }
+        });
     }
 
     @Override

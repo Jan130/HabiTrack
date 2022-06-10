@@ -1,11 +1,38 @@
 package de.jansp.habitrack;
 
-public class Habit {
-    String text1;
-    String text2;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
-    public Habit(String text1, String text2){
-        this.text1 = text1;
-        this.text2 = text2;
+public class Habit {
+    String name;
+    HashMap<Date, Boolean> done;
+
+    private final SimpleDateFormat sdf;
+
+    public Habit(String name){
+        this.name = name;
+        this.done = new HashMap<>();
+
+        sdf = new SimpleDateFormat("yyy-MM-dd");
+    }
+
+    public void setDone(Date day, boolean done){
+        try{
+            Date dateOnly = sdf.parse(sdf.format(day));
+            this.done.put(dateOnly, done);
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean getDone(Date day){
+        try {
+            Date dateOnly = sdf.parse(sdf.format(day));
+            return this.done.get(dateOnly);
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }

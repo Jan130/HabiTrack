@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize data
         habits = new ArrayList<>();
-        habits.add(new Habit("1", "2"));
-        habits.add(new Habit("3", "4"));
-        habits.add(new Habit("5", "6"));
+        Habit habit1 = new Habit("Liegestütze");
+        habit1.setDone(Calendar.getInstance().getTime(), true);
+        habits.add(habit1);
 
         rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(null));
