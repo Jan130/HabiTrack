@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.HabitViewHolder> {
@@ -29,8 +30,11 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
 
     List<Habit> habits;
 
+    private Date currentDate;
+
     public HabitViewAdapter(List<Habit> habits){
         this.habits = habits;
+        this.currentDate = Calendar.getInstance().getTime();
     }
 
     @Override
@@ -47,19 +51,21 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
     @Override
     public void onBindViewHolder(HabitViewAdapter.HabitViewHolder holder, int position) {
         holder.name.setText(habits.get(position).name);
-        holder.done.setChecked(habits.get(position).getDone(Calendar.getInstance().getTime()));
+        holder.done.setChecked(habits.get(position).getDone(currentDate));
 
-        holder.done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                habits.get(position).setDone(Calendar.getInstance().getTime(), checked);
-            }
+        holder.done.setOnClickListener(view -> {
+            boolean checked = ((CheckBox) view).isChecked();
+            habits.get(position).setDone(currentDate, checked);
         });
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public void setDate(Date date){
+        currentDate = date;
+        notifyDataSetChanged();
     }
 }
