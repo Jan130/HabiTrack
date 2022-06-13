@@ -11,14 +11,18 @@ public class Habit {
 
     private final SimpleDateFormat timeResetFormatter;
 
+    public int viewType;
+
     public Habit(String name){
         this.name = name;
         this.done = new HashMap<>();
 
         timeResetFormatter = new SimpleDateFormat("yyy-MM-dd");
+
+        viewType = HabitViewAdapter.ViewType.checkboxHabit;
     }
 
-    public void setDone(Date day, boolean done){
+    public void setChecked(Date day, boolean done){
         try{
             Date dateOnly = timeResetFormatter.parse(timeResetFormatter.format(day));
             this.done.put(dateOnly, done);
@@ -27,7 +31,7 @@ public class Habit {
         }
     }
 
-    public boolean getDone(Date day){
+    public boolean getChecked(Date day){
         try {
             Date dateOnly = timeResetFormatter.parse(timeResetFormatter.format(day));
             if(this.done.containsKey(dateOnly)){

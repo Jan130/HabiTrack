@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,16 +14,31 @@ import java.util.Date;
 import java.util.List;
 
 public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.HabitViewHolder> {
+    public static class ViewType{
+        public static final int checkboxHabit = 0;
+        public static final int countHabit = 1;
+        public static final int selectHabit = 2;
+    }
+
     public static class HabitViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView name;
-        CheckBox done;
+        int viewType;
 
         public HabitViewHolder(View itemView){
             super(itemView);
             cv = itemView.findViewById(R.id.cv);
             name = itemView.findViewById(R.id.name);
-            done = itemView.findViewById(R.id.done);
+        }
+    }
+
+    public static class CheckboxHabitViewHolder extends HabitViewHolder {
+        CheckBox box;
+
+        public CheckboxHabitViewHolder(View itemView) {
+            super(itemView);
+            viewType = ViewType.checkboxHabit;
+            box = itemView.findViewById(R.id.box);
         }
     }
 
@@ -44,24 +58,37 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
 
     @Override
     public HabitViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-        return new HabitViewHolder(v);
+        switch(viewType) {
+            case ViewType.checkboxHabit: return new CheckboxHabitViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.habit_checkbox, parent, false));
+            default: return null;
+        }
     }
 
     @Override
     public void onBindViewHolder(HabitViewAdapter.HabitViewHolder holder, int position) {
         holder.name.setText(habits.get(position).name);
-        holder.done.setChecked(habits.get(position).getDone(currentDate));
 
-        holder.done.setOnClickListener(view -> {
-            boolean checked = ((CheckBox) view).isChecked();
-            habits.get(position).setDone(currentDate, checked);
-        });
+        switch(holder.getItemViewType()) {
+            case ViewType.checkboxHabit:
+                CheckboxHabitViewHolder h = (CheckboxHabitViewHolder) holder;
+                h.box.setChecked(habits.get(position).getChecked(currentDate));
+                h.box.setOnClickListener(view -> {
+                    boolean checked = ((CheckBox) view).isChecked();
+                    habits.get(position).setChecked(currentDate, checked);
+                });
+        }
+
+
     }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return habits.get(position).viewType;
     }
 
     public void setDate(Date date){

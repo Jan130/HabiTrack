@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize data
         habits = new ArrayList<>();
         Habit habit1 = new Habit("Liegestütze");
-        habit1.setDone(Calendar.getInstance().getTime(), false);
+        habit1.setChecked(Calendar.getInstance().getTime(), false);
         habits.add(habit1);
 
         // Initialize RecyclerView
