@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize data
         habits = new ArrayList<>();
-        Habit habit1 = new Habit("Liegestütze");
+        HabitCheckbox habit1 = new HabitCheckbox("Liegestütze");
         habit1.setChecked(Calendar.getInstance().getTime(), false);
         habits.add(habit1);
 

@@ -38,7 +38,7 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
         public CheckboxHabitViewHolder(View itemView) {
             super(itemView);
             viewType = ViewType.checkboxHabit;
-            box = itemView.findViewById(R.id.box);
+            box = itemView.findViewById(R.id.number);
         }
     }
 
@@ -71,10 +71,10 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
         switch(holder.getItemViewType()) {
             case ViewType.checkboxHabit:
                 CheckboxHabitViewHolder h = (CheckboxHabitViewHolder) holder;
-                h.box.setChecked(habits.get(position).getChecked(currentDate));
+                h.box.setChecked(((HabitCheckbox) habits.get(position)).getChecked(currentDate));
                 h.box.setOnClickListener(view -> {
                     boolean checked = ((CheckBox) view).isChecked();
-                    habits.get(position).setChecked(currentDate, checked);
+                    ((HabitCheckbox) habits.get(position)).setChecked(currentDate, checked);
                 });
         }
 
