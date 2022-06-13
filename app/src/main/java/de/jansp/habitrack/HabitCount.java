@@ -4,36 +4,36 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
-public class HabitCheckbox extends Habit {
-    HashMap<Date, Boolean> done;
+public class HabitCount extends Habit {
+    HashMap<Date, Integer> count;
 
-    public HabitCheckbox(String name) {
+    public HabitCount(String name) {
         super(name);
 
-        this.done = new HashMap<>();
-        viewType = HabitViewAdapter.ViewType.checkboxHabit;
+        this.count = new HashMap<>();
+        viewType = HabitViewAdapter.ViewType.countHabit;
     }
 
-    public void setChecked(Date day, boolean done){
+    public void setCount(Date day, int count){
         try{
             Date dateOnly = timeResetFormatter.parse(timeResetFormatter.format(day));
-            this.done.put(dateOnly, done);
+            this.count.put(dateOnly, count);
         } catch(ParseException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public boolean getChecked(Date day){
+    public int getCount(Date day){
         try {
             Date dateOnly = timeResetFormatter.parse(timeResetFormatter.format(day));
-            if(this.done.containsKey(dateOnly)){
-                return this.done.get(dateOnly);
+            if(this.count.containsKey(dateOnly)){
+                return this.count.get(dateOnly);
             } else {
-                return false;
+                return 0;
             }
         } catch(ParseException e){
             System.out.println(e.getMessage());
         }
-        return false;
+        return 0;
     }
 }

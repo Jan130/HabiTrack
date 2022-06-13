@@ -34,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize data
         habits = new ArrayList<>();
-        HabitCheckbox habit1 = new HabitCheckbox("Liegestütze");
+        HabitCheckbox habit1 = new HabitCheckbox("Lernen");
         habit1.setChecked(Calendar.getInstance().getTime(), false);
         habits.add(habit1);
+        HabitCount habit2 = new HabitCount("Liegestütze");
+        habit2.setCount(Calendar.getInstance().getTime(), 0);
+        habits.add(habit2);
 
         // Initialize RecyclerView
         rv = findViewById(R.id.rv);
